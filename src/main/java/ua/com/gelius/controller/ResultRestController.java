@@ -1,6 +1,5 @@
 package ua.com.gelius.controller;
 
-import javax.validation.constraints.Pattern;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,14 +21,14 @@ public class ResultRestController {
 
     @GetMapping(value = "/result", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Integer> result(
-        @RequestParam("param1") @Pattern(regexp = "[\\d*]{1,5}", message = "must be a digit, between 1 and 5") String param1,
-        @RequestParam("param2") @Pattern(regexp = "[\\d*]{1,5}", message = "must be a digit, between 1 and 5") String param2,
+        @RequestParam(value = "param1", defaultValue = "1") Integer param1,
+        @RequestParam(value = "param2", defaultValue = "1") Integer param2,
         @RequestParam("flag") boolean flag) {
 
         RequestParameter parameters = RequestParameter
             .builder()
-            .parameterOne(Integer.parseInt(param1))
-            .parameterTwo(Integer.parseInt(param2))
+            .parameterOne(param1)
+            .parameterTwo(param2)
             .flag(flag)
             .build();
         Integer result = resultRequestHandler.result(parameters);
